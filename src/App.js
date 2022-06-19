@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Form from "./components/Form";
+import Curriculum from "./components/Curriculum";
+import './styles/app.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      renderCurriculum: false,
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: '',
+      schoolName: '',
+      studyTitle: '',
+      studyDateFrom: undefined,
+      studyDateTo: undefined,
+      companyName: '',
+      positionTitle: '',
+      mainTasks: [],
+      workDateFrom: undefined,
+      workDateTo: undefined,
+    }
+  }
+
+  handleChange = (e) => {
+    if (e.target.name === 'mainTasks') {
+      this.setState({ mainTasks: e.target.value.split(', ') });
+    } else {
+      this.setState({ [e.target.name]: e.target.value });
+    }
+  }
+
+  onSubmitButton = (e) => {
+    e.preventDefault();
+    this.setState({ renderCurriculum: !this.setState.renderCurriculum });
+  }
+
+  render() {
+    return (
+      <div className="app">
+        {this.state.renderCurriculum ? <Curriculum fields={this.state} /> : <Form onSubmit={this.onSubmitButton} handleChange={this.handleChange} />}
+      </div>
+    )
+  }
 }
+
 
 export default App;
